@@ -5,7 +5,7 @@ This application demonstrates the implementation of a very simple worker process
 The moving parts:
 
 * `www/index.php` to serve a front-end using Silex that allows submission of new text and displays existing submissions;
-* `bin/worker.php` to process jobs: removing profanity from submitted text using [Bomberman](https://bomberman.ikayzo.com)'s API;
+* `bin/worker.php` to process jobs: without bomberman
 * RabbitMQ to queue these jobs;
 * Redis to store results.
 
