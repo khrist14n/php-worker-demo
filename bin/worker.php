@@ -1,17 +1,6 @@
 <?php
 
 $app = require(__DIR__.'/../app.php');
-/*
-$app->register(new SilexGuzzle\GuzzleServiceProvider(), [
-   'guzzle.base_uri' => 'https://bomberman-prod.herokuapp.com/api/v1/profanity/',
-   'guzzle.timeout' => 5,
-   'guzzle.request_options' => [
-       'headers' => [
-           'Authorization' => 'Token token='.getenv('BOMBERMAN_API_KEY'),
-           'Accept' => 'application/json',
-        ],
-    ],
-]);*/
 
 $connection = $app['amqp']['default'];
 $channel = $connection->channel();
@@ -24,13 +13,12 @@ $callback = function($msg) use($app) {
     $app['monolog']->debug('New task received for censoring message: ' . $msg->body);
     
     try {
-        // call the "censor" API and pass it the text to clean up
-        $result = $app['guzzle']->get('censor', ['query' => ['corpus' => $msg->body]]);
-        $result = json_decode($result->getBody());
+        $result = json_encode(array("text"=>$msg->body));
+        $result = json_decode($result,true);
         if($result) {
-            $app['monolog']->debug('Censored message result is: ' . $result->censored_text);
+            $app['monolog']->debug('Censored message result is: ' . $result['text']);
             // store in Redis
-            $app['predis']->lpush('opinions', $result->censored_text);
+            $app['predis']->lpush('opinions', $result['text']);
             // mark as delivered in RabbitMQ
             $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         } else {
