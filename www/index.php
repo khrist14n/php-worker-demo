@@ -14,7 +14,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
 ]);
 
 $app->match('/', function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    $opinions = $app['predis']->lrange('opinions', 0, 10);
+    $opinions = $app['predis']->lrange('opinions',0,-1);
 
     $form = $app['form.factory']->createBuilder('form')
         ->add('opinion', 'textarea', [
