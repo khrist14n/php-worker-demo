@@ -5,7 +5,6 @@
     "repository": "https://github.com/heroku-examples/php-worker-demo",
     "addons": [
         "heroku-redis",
-        "cloudamqp",
-        "bomberman"
+        "cloudamqp"
     ]
 }
