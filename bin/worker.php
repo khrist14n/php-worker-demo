@@ -1,7 +1,7 @@
 <?php
 
 $app = require(__DIR__.'/../app.php');
-
+/*
 $app->register(new SilexGuzzle\GuzzleServiceProvider(), [
    'guzzle.base_uri' => 'https://bomberman-prod.herokuapp.com/api/v1/profanity/',
    'guzzle.timeout' => 5,
@@ -11,7 +11,7 @@ $app->register(new SilexGuzzle\GuzzleServiceProvider(), [
            'Accept' => 'application/json',
         ],
     ],
-]);
+]);*/
 
 $connection = $app['amqp']['default'];
 $channel = $connection->channel();
